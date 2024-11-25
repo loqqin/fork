@@ -1,0 +1,434 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: loqqin <secret@secret.com>
+Date: Sun, 24 Nov 2024 22:32:32 +0200
+Subject: [PATCH] FIRST CUSTOM COMMIT
+
+
+diff --git a/src/main/java/net/minecraft/nbt/CompoundTag.java b/src/main/java/net/minecraft/nbt/CompoundTag.java
+index d7bb00a946346dff0b0269cbd65276e146a63fb0..d1fd7b51496e156a262b10cef44bf65264252cc9 100644
+--- a/src/main/java/net/minecraft/nbt/CompoundTag.java
++++ b/src/main/java/net/minecraft/nbt/CompoundTag.java
+@@ -159,7 +159,7 @@ public class CompoundTag implements Tag {
+             return "TAG_Compound";
+         }
+     };
+-    private final Map<String, Tag> tags;
++    public final Map<String, Tag> tags;
+ 
+     protected CompoundTag(Map<String, Tag> entries) {
+         this.tags = entries;
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ServerboundInteractPacket.java b/src/main/java/net/minecraft/network/protocol/game/ServerboundInteractPacket.java
+index 8a0ee9564fc36a2badf1357f7e6c47b5f1500f6c..24e0e75f7b4640ab12f5debba356d7d5f0706266 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ServerboundInteractPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ServerboundInteractPacket.java
+@@ -10,13 +10,14 @@ import net.minecraft.server.level.ServerLevel;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.entity.Entity;
+ import net.minecraft.world.phys.Vec3;
++import org.bukkit.inventory.ItemStack;
+ 
+ public class ServerboundInteractPacket implements Packet<ServerGamePacketListener> {
+     public static final StreamCodec<FriendlyByteBuf, ServerboundInteractPacket> STREAM_CODEC = Packet.codec(
+         ServerboundInteractPacket::write, ServerboundInteractPacket::new
+     );
+-    private final int entityId;
+-    private final ServerboundInteractPacket.Action action;
++    public final int entityId;
++    public final ServerboundInteractPacket.Action action;
+     private final boolean usingSecondaryAction;
+     static final ServerboundInteractPacket.Action ATTACK_ACTION = new ServerboundInteractPacket.Action() {
+         @Override
+@@ -89,7 +90,7 @@ public class ServerboundInteractPacket implements Packet<ServerGamePacketListene
+         this.action.dispatch(handler);
+     }
+ 
+-    interface Action {
++    public interface Action {
+         ServerboundInteractPacket.ActionType getType();
+ 
+         void dispatch(ServerboundInteractPacket.Handler handler);
+@@ -97,7 +98,7 @@ public class ServerboundInteractPacket implements Packet<ServerGamePacketListene
+         void write(FriendlyByteBuf buf);
+     }
+ 
+-    static enum ActionType {
++    public static enum ActionType {
+         INTERACT(ServerboundInteractPacket.InteractionAction::new),
+         ATTACK(buf -> ServerboundInteractPacket.ATTACK_ACTION),
+         INTERACT_AT(ServerboundInteractPacket.InteractionAtLocationAction::new);
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
+index af1ae3dacb628da23f7d2988c6e76d3fb2d64103..f4cbfa1bf786d846c4eb41b5c7f0aa2b7a099189 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
+@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+ import net.minecraft.world.level.block.entity.SmokerBlockEntity;
+ import org.bukkit.Location;
+ import org.bukkit.Material;
++import org.bukkit.craftbukkit.entity.CraftItem;
+ import org.bukkit.craftbukkit.util.CraftLegacy;
+ import org.bukkit.entity.HumanEntity;
+ import org.bukkit.event.inventory.InventoryType;
+@@ -48,14 +49,14 @@ public class CraftInventory implements Inventory {
+     }
+ 
+     @Override
+-    public ItemStack getItem(int index) {
++    public CraftItemStack getItem(int index) {
+         net.minecraft.world.item.ItemStack item = this.getInventory().getItem(index);
+         return item.isEmpty() ? null : CraftItemStack.asCraftMirror(item);
+     }
+ 
+-    protected ItemStack[] asCraftMirror(List<net.minecraft.world.item.ItemStack> mcItems) {
++    protected CraftItemStack[] asCraftMirror(List<net.minecraft.world.item.ItemStack> mcItems) {
+         int size = mcItems.size();
+-        ItemStack[] items = new ItemStack[size];
++        CraftItemStack[] items = new CraftItemStack[size];
+ 
+         for (int i = 0; i < size; i++) {
+             net.minecraft.world.item.ItemStack mcItem = mcItems.get(i);
+@@ -66,7 +67,7 @@ public class CraftInventory implements Inventory {
+     }
+ 
+     @Override
+-    public ItemStack[] getStorageContents() {
++    public CraftItemStack[] getStorageContents() {
+         return this.getContents();
+     }
+ 
+@@ -76,7 +77,7 @@ public class CraftInventory implements Inventory {
+     }
+ 
+     @Override
+-    public ItemStack[] getContents() {
++    public CraftItemStack[] getContents() {
+         List<net.minecraft.world.item.ItemStack> mcItems = this.getInventory().getContents();
+ 
+         return this.asCraftMirror(mcItems);
+@@ -175,26 +176,26 @@ public class CraftInventory implements Inventory {
+     }
+ 
+     @Override
+-    public HashMap<Integer, ItemStack> all(Material material) {
++    public HashMap<Integer, CraftItemStack> all(Material material) {
+         Preconditions.checkArgument(material != null, "Material cannot be null");
+         material = CraftLegacy.fromLegacy(material);
+-        HashMap<Integer, ItemStack> slots = new HashMap<>();
++        HashMap<Integer, CraftItemStack> slots = new HashMap<>();
+ 
+-        ItemStack[] inventory = this.getStorageContents();
++        CraftItemStack[] inventory = this.getStorageContents();
+         for (int i = 0; i < inventory.length; i++) {
+-            ItemStack item = inventory[i];
++            CraftItemStack item = inventory[i];
+             if (item != null && item.getType() == material) {
+-                slots.put(i, item);
++                slots.put(i,item);
+             }
+         }
+         return slots;
+     }
+ 
+     @Override
+-    public HashMap<Integer, ItemStack> all(ItemStack item) {
+-        HashMap<Integer, ItemStack> slots = new HashMap<>();
++    public HashMap<Integer, CraftItemStack> all(ItemStack item) {
++        HashMap<Integer, CraftItemStack> slots = new HashMap<>();
+         if (item != null) {
+-            ItemStack[] inventory = this.getStorageContents();
++            CraftItemStack[] inventory = this.getStorageContents();
+             for (int i = 0; i < inventory.length; i++) {
+                 if (item.equals(inventory[i])) {
+                     slots.put(i, inventory[i]);
+@@ -219,7 +220,7 @@ public class CraftInventory implements Inventory {
+     }
+ 
+     @Override
+-    public int first(ItemStack item) {
++    public int first(CraftItemStack item) {
+         return this.first(item, true);
+     }
+ 
+@@ -431,7 +432,7 @@ public class CraftInventory implements Inventory {
+     }
+ 
+     @Override
+-    public void remove(ItemStack item) {
++    public void remove(CraftItemStack item) {
+         ItemStack[] items = this.getStorageContents();
+         for (int i = 0; i < items.length; i++) {
+             if (items[i] != null && items[i].equals(item)) {
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAbstractHorse.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAbstractHorse.java
+index 54e81472259dc13dfc7b2af6b211628c39435890..05b20e06e53e45912b0061f1b06cb7563fed55f0 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAbstractHorse.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryAbstractHorse.java
+@@ -1,6 +1,7 @@
+ package org.bukkit.craftbukkit.inventory;
+ 
+ import net.minecraft.world.Container;
++import org.bukkit.craftbukkit.entity.CraftItem;
+ import org.bukkit.inventory.AbstractHorseInventory;
+ import org.bukkit.inventory.ItemStack;
+ 
+@@ -52,11 +53,11 @@ public class CraftInventoryAbstractHorse extends CraftInventory implements Abstr
+     }
+ 
+     @Override
+-    public ItemStack[] getContents() {
+-        ItemStack[] items = new ItemStack[this.getSize()];
++    public CraftItemStack[] getContents() {
++        CraftItemStack[] items = new CraftItemStack[this.getSize()];
+ 
+-        items[net.minecraft.world.entity.animal.horse.AbstractHorse.INV_SLOT_SADDLE] = this.getSaddle();
+-        items[net.minecraft.world.inventory.HorseInventoryMenu.SLOT_BODY_ARMOR] = this.getArmor();
++        items[net.minecraft.world.entity.animal.horse.AbstractHorse.INV_SLOT_SADDLE] = CraftItemStack.asCraftCopy(this.getSaddle());
++        items[net.minecraft.world.inventory.HorseInventoryMenu.SLOT_BODY_ARMOR] = CraftItemStack.asCraftCopy(this.getArmor());
+ 
+         for (int i = net.minecraft.world.inventory.HorseInventoryMenu.SLOT_BODY_ARMOR + 1; i < items.length; i++) {
+             net.minecraft.world.item.ItemStack item = this.getMainInventory().getItem(i - 1);
+@@ -80,7 +81,7 @@ public class CraftInventoryAbstractHorse extends CraftInventory implements Abstr
+     }
+ 
+     @Override
+-    public ItemStack getItem(final int index) {
++    public CraftItemStack getItem(final int index) {
+         if (index == net.minecraft.world.inventory.HorseInventoryMenu.SLOT_BODY_ARMOR) {
+             final net.minecraft.world.item.ItemStack item = this.getArmorInventory().getItem(0);
+             return item.isEmpty() ? null : CraftItemStack.asCraftMirror(item);
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCrafting.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCrafting.java
+index 9e6feea48de558d76f57dde7e3981e272a98ef4a..9ab0540f067831c19b406143dfed15216db3495e 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCrafting.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCrafting.java
+@@ -38,8 +38,8 @@ public class CraftInventoryCrafting extends CraftInventory implements CraftingIn
+     }
+ 
+     @Override
+-    public ItemStack[] getContents() {
+-        ItemStack[] items = new ItemStack[this.getSize()];
++    public CraftItemStack[] getContents() {
++        CraftItemStack[] items = new CraftItemStack[this.getSize()];
+         List<net.minecraft.world.item.ItemStack> mcResultItems = this.getResultInventory().getContents();
+ 
+         int i = 0;
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCustom.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCustom.java
+index da1c1fe0faf6819b15a81d6ad53370948e5f984f..b6f592943ae5c6dd6cb73c792eeaf0c2899e07b7 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCustom.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryCustom.java
+@@ -69,11 +69,11 @@ public class CraftInventoryCustom extends CraftInventory {
+     }
+     // Paper end
+ 
+-    static class MinecraftInventory implements Container {
++    public static class MinecraftInventory implements Container {
+         private final NonNullList<ItemStack> items;
+         private int maxStack = MAX_STACK;
+         private final List<HumanEntity> viewers;
+-        private final String title;
++        public String title;
+         private final net.kyori.adventure.text.Component adventure$title; // Paper
+         private InventoryType type;
+         private final InventoryHolder owner;
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java
+index df847c9897f209700a79aa1a8254b708ef7bf260..b09aed8a059f5d679fd6c2a4661e63aca9994c70 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java
+@@ -22,12 +22,12 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
+     }
+ 
+     @Override
+-    public ItemStack[] getStorageContents() {
++    public CraftItemStack[] getStorageContents() {
+         return this.asCraftMirror(this.getInventory().items);
+     }
+ 
+     @Override
+-    public ItemStack getItemInMainHand() {
++    public CraftItemStack getItemInMainHand() {
+         return CraftItemStack.asCraftMirror(this.getInventory().getSelected());
+     }
+ 
+@@ -42,7 +42,7 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
+     }
+ 
+     @Override
+-    public ItemStack getItemInOffHand() {
++    public CraftItemStack getItemInOffHand() {
+         return CraftItemStack.asCraftMirror(this.getInventory().offhand.get(0));
+     }
+ 
+@@ -193,22 +193,22 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
+     }
+ 
+     @Override
+-    public ItemStack getHelmet() {
++    public CraftItemStack getHelmet() {
+         return this.getItem(this.getSize() - 2);
+     }
+ 
+     @Override
+-    public ItemStack getChestplate() {
++    public CraftItemStack getChestplate() {
+         return this.getItem(this.getSize() - 3);
+     }
+ 
+     @Override
+-    public ItemStack getLeggings() {
++    public CraftItemStack getLeggings() {
+         return this.getItem(this.getSize() - 4);
+     }
+ 
+     @Override
+-    public ItemStack getBoots() {
++    public CraftItemStack getBoots() {
+         return this.getItem(this.getSize() - 5);
+     }
+ 
+@@ -253,7 +253,7 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
+     }
+ 
+     @Override
+-    public ItemStack[] getArmorContents() {
++    public CraftItemStack[] getArmorContents() {
+         return this.asCraftMirror(this.getInventory().armor);
+     }
+ 
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
+index ccad5a7018f6eaacb011818e9da990c75e0d06df..79df5aa97db0f1615acbddd97ae4d0d35a674fe3 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
+@@ -2,9 +2,13 @@ package org.bukkit.craftbukkit.inventory;
+ 
+ import com.google.common.base.Preconditions;
+ import com.google.common.collect.ImmutableMap;
++import java.util.Arrays;
+ import java.util.Collections;
+ import java.util.Map;
+ import java.util.Optional;
++import java.util.UUID;
++import java.util.function.Consumer;
++import net.kyori.adventure.text.Component;
+ import net.minecraft.advancements.critereon.ItemPredicate;
+ import net.minecraft.advancements.critereon.MinMaxBounds;
+ import net.minecraft.core.Holder;
+@@ -17,16 +21,23 @@ import net.minecraft.core.component.PatchedDataComponentMap;
+ import net.minecraft.world.item.Item;
+ import net.minecraft.world.item.enchantment.EnchantmentHelper;
+ import net.minecraft.world.item.enchantment.ItemEnchantments;
++import org.bukkit.Color;
+ import org.bukkit.Material;
++import org.bukkit.NamespacedKey;
+ import org.bukkit.configuration.serialization.DelegateDeserialization;
+ import org.bukkit.craftbukkit.enchantments.CraftEnchantment;
+ import org.bukkit.craftbukkit.util.CraftLegacy;
+ import org.bukkit.craftbukkit.util.CraftMagicNumbers;
+ import org.bukkit.enchantments.Enchantment;
++import org.bukkit.inventory.ItemFlag;
+ import org.bukkit.inventory.ItemStack;
++import org.bukkit.inventory.meta.ColorableArmorMeta;
+ import org.bukkit.inventory.meta.ItemMeta;
+ import org.bukkit.material.MaterialData;
++import org.bukkit.persistence.PersistentDataContainer;
++import org.bukkit.persistence.PersistentDataType;
+ import org.jetbrains.annotations.ApiStatus;
++import org.jetbrains.annotations.NotNull;
+ 
+ @DelegateDeserialization(ItemStack.class)
+ public final class CraftItemStack extends ItemStack {
+@@ -215,15 +226,16 @@ public final class CraftItemStack extends ItemStack {
+     }
+ 
+     @Override
+-    public void setAmount(int amount) {
++    public CraftItemStack setAmount(int amount) {
+         if (this.handle == null) {
+-            return;
++            return this;
+         }
+ 
+         this.handle.setCount(amount);
+         if (false && amount == 0) { // Paper - remove CraftItemStack#setAmount null assignment
+             this.handle = null;
+         }
++        return this;
+     }
+ 
+     @Override
+@@ -660,4 +672,66 @@ public final class CraftItemStack extends ItemStack {
+     }
+ 
+     // Paper end - data component API
++
++    public CraftItemStack setCompound(String key, PersistentDataContainer container) {
++        return editMeta(meta -> meta.getPersistentDataContainer().set(new NamespacedKey("space", key.toLowerCase()), PersistentDataType.TAG_CONTAINER, container));
++    }
++
++    public CraftItemStack setGlinting() {
++        return editMeta(meta -> meta.setEnchantmentGlintOverride(true));
++    }
++
++    public CraftItemStack hideTooltip() {
++        return editMeta(meta -> meta.setHideTooltip(true));
++    }
++
++    public CraftItemStack setDouble(String key, double value) {
++        return editMeta(meta -> meta.getPersistentDataContainer().set(new NamespacedKey("space", key.toLowerCase()), PersistentDataType.DOUBLE, value));
++    }
++
++    public CraftItemStack setInt(String key, int value) {
++        return editMeta(meta -> meta.getPersistentDataContainer().set(new NamespacedKey("space", key.toLowerCase()), PersistentDataType.INTEGER, value));
++    }
++
++    @Override
++    public CraftItemStack editMeta(final @NotNull Consumer<? super ItemMeta> consumer) {
++        return (CraftItemStack) super.editMeta(consumer);
++    }
++
++    public CraftItemStack setName(String name) {
++        return editMeta(meta -> meta.displayName(Component.text(name)));
++    }
++
++    public CraftItemStack setLore(String[] lore) {
++        return editMeta(meta -> meta.setLore(Arrays.asList(lore)));
++    }
++
++    public CraftItemStack setUnbreakable() {
++        return editMeta(meta -> {
++            meta.setUnbreakable(true);
++            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
++        });
++    }
++
++    public CraftItemStack nameAndLore(String name, String[] lore) {
++        return editMeta(meta -> {
++            meta.displayName(Component.text(name));
++            meta.setLore(Arrays.asList(lore));
++        });
++    }
++
++    public CraftItemStack setString(String key, String value) {
++        return editMeta(meta -> meta.getPersistentDataContainer().set(new NamespacedKey("space", key.toLowerCase()), PersistentDataType.STRING, value));
++    }
++
++    public CraftItemStack setRandomUUID() {
++        return editMeta(meta -> meta.getPersistentDataContainer().set(new NamespacedKey("space", "uuid"), PersistentDataType.STRING, UUID.randomUUID().toString()));
++    }
++
++    public CraftItemStack setColor(int red, int green, int blue) {
++        return editMeta(meta -> {
++            ((ColorableArmorMeta) meta).setColor(Color.fromRGB(red, green, blue));
++            meta.addItemFlags(ItemFlag.HIDE_DYE);
++        });
++    }
+ }
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftResultInventory.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftResultInventory.java
+index d4ad8c00e567c6769694b457f8e870669fecb7a8..259552dc27a937dd48e1dab92fce80372404a001 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftResultInventory.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftResultInventory.java
+@@ -21,7 +21,7 @@ public class CraftResultInventory extends CraftInventory {
+     }
+ 
+     @Override
+-    public ItemStack getItem(int slot) {
++    public CraftItemStack getItem(int slot) {
+         if (slot < this.getIngredientsInventory().getContainerSize()) {
+             net.minecraft.world.item.ItemStack item = this.getIngredientsInventory().getItem(slot);
+             return item.isEmpty() ? null : CraftItemStack.asCraftMirror(item);
