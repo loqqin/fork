@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: loqqin <secret@secret.com>
+Date: Fri, 29 Nov 2024 20:31:55 +0200
+Subject: [PATCH] sdf
+
+
+diff --git a/src/main/java/net/minecraft/world/item/crafting/SingleItemRecipe.java b/src/main/java/net/minecraft/world/item/crafting/SingleItemRecipe.java
+index 834a874beedeba65d4f6425189b7e1739a9411bf..9a97617325d943d2592650d7ebef0047543e3509 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/SingleItemRecipe.java
++++ b/src/main/java/net/minecraft/world/item/crafting/SingleItemRecipe.java
+@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
+ 
+ public abstract class SingleItemRecipe implements Recipe<SingleRecipeInput> {
+     private final Ingredient input;
+-    private final ItemStack result;
++    public ItemStack result;
+     private final String group;
+     @Nullable
+     private PlacementInfo placementInfo;
