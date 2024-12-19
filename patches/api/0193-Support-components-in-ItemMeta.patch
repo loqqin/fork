@@ -5,7 +5,7 @@ Subject: [PATCH] Support components in ItemMeta
 
 
 diff --git a/src/main/java/org/bukkit/inventory/meta/ItemMeta.java b/src/main/java/org/bukkit/inventory/meta/ItemMeta.java
-index 59e1987f0f0accef369cc29dbec464185eb7c99c..afdcc2d67d55f2f07c913816e1f5b290d1415357 100644
+index 4012a1b4e9acdfafb38c78a54c4b422ffa07cf04..cca91212e702a73e9fc37ec46d575967fedf68c9 100644
 --- a/src/main/java/org/bukkit/inventory/meta/ItemMeta.java
 +++ b/src/main/java/org/bukkit/inventory/meta/ItemMeta.java
 @@ -5,6 +5,7 @@ import java.util.Collection;
@@ -16,7 +16,7 @@ index 59e1987f0f0accef369cc29dbec464185eb7c99c..afdcc2d67d55f2f07c913816e1f5b290
  import org.bukkit.NamespacedKey;
  import org.bukkit.Tag;
  import org.bukkit.attribute.Attribute;
-@@ -75,6 +76,20 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
+@@ -111,6 +112,20 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
      @NotNull
      String getDisplayName();
  
@@ -37,7 +37,7 @@ index 59e1987f0f0accef369cc29dbec464185eb7c99c..afdcc2d67d55f2f07c913816e1f5b290
      /**
       * Sets the display name.
       *
-@@ -84,6 +99,16 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
+@@ -120,6 +135,16 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
      @Deprecated // Paper
      void setDisplayName(@Nullable String name);
  
@@ -54,7 +54,7 @@ index 59e1987f0f0accef369cc29dbec464185eb7c99c..afdcc2d67d55f2f07c913816e1f5b290
      /**
       * Checks for existence of an item name.
       * <br>
-@@ -220,6 +245,19 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
+@@ -256,6 +281,19 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
      @Nullable
      List<String> getLore();
  
@@ -74,7 +74,7 @@ index 59e1987f0f0accef369cc29dbec464185eb7c99c..afdcc2d67d55f2f07c913816e1f5b290
      /**
       * Sets the lore for this item.
       * Removes lore when given null.
-@@ -230,6 +268,16 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
+@@ -266,6 +304,16 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
      @Deprecated // Paper
      void setLore(@Nullable List<String> lore);
  

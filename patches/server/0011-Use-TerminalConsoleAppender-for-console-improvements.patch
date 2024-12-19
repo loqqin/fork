@@ -25,7 +25,7 @@ Other changes:
 Co-Authored-By: Emilia Kond <emilia@rymiel.space>
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 220d2696bf40d1657c87d049f563ccfffed2e8ad..99e44684a3f6340ed3c0f73c690a9d4d51872f0d 100644
+index 4a666be25894eae32a002a9eaf0eee22ae19da95..f9ee2826122e1ae9c7df14ada6dfd8fb767c1c42 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -5,6 +5,12 @@ plugins {
@@ -41,10 +41,10 @@ index 220d2696bf40d1657c87d049f563ccfffed2e8ad..99e44684a3f6340ed3c0f73c690a9d4d
  // Paper start - configure mockito agent that is needed in newer java versions
  val mockitoAgent = configurations.register("mockitoAgent")
  abstract class MockitoAgentProvider : CommandLineArgumentProvider {
-@@ -19,7 +25,22 @@ abstract class MockitoAgentProvider : CommandLineArgumentProvider {
- 
+@@ -20,7 +26,22 @@ abstract class MockitoAgentProvider : CommandLineArgumentProvider {
  dependencies {
      implementation(project(":paper-api"))
+     implementation("ca.spottedleaf:concurrentutil:0.0.2") // Paper - Add ConcurrentUtil dependency
 -    implementation("jline:jline:2.12.1")
 +    // Paper start
 +    implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
@@ -62,10 +62,10 @@ index 220d2696bf40d1657c87d049f563ccfffed2e8ad..99e44684a3f6340ed3c0f73c690a9d4d
 +    runtimeOnly(log4jPlugins.output)
 +    alsoShade(log4jPlugins.output)
 +    // Paper end
-     implementation("org.apache.logging.log4j:log4j-iostreams:2.22.1") // Paper - remove exclusion
+     implementation("org.apache.logging.log4j:log4j-iostreams:2.24.1") // Paper - remove exclusion
      implementation("org.ow2.asm:asm-commons:9.7.1")
      implementation("org.spongepowered:configurate-yaml:4.2.0-SNAPSHOT") // Paper - config files
-@@ -92,6 +113,19 @@ tasks.check {
+@@ -93,6 +114,19 @@ tasks.check {
      dependsOn(scanJar)
  }
  // Paper end
@@ -266,7 +266,7 @@ index 8323f135d6bf2e1f12525e05094ffa3f2420e7e1..a143ea1e58464a3122fbd8ccafe417bd
      }
  }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index daf20aa9a83a2583c0c61a4123cc2e528d19801d..afb67956031f4bcccee12f0ece4bb8a7e6f02cfc 100644
+index 8c68969b7d22376cfe5aadf81a16d9ba45e7c131..f43958a5253af0e753ba2b7d5ee9e715a3eaa424 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -161,7 +161,7 @@ import com.mojang.serialization.Dynamic;
@@ -388,7 +388,7 @@ index 3d92c61f7781221cfdc0324d11bd0088954e4a68..84a2c6c397604279ba821286f5c3c855
          if (!SwingUtilities.isEventDispatchThread()) {
              SwingUtilities.invokeLater(() -> {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 1333daa8666fe2ec4033a2f57ba6b716fcdd5343..8daa027a94602d7d556cf4fbfc8fcd97caf6bd98 100644
+index 360e9b3425451963f398efdb7da8f5821cf15779..70e5ffb1502acecc93685090741ccda48473f262 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -162,8 +162,7 @@ public abstract class PlayerList {
@@ -429,7 +429,7 @@ index c3774d9a253d4fda80f63d4040722ab5c1c94be4..41aa22f431c989d60dde5c85ca2821d5
      @Override
      public PluginCommand getPluginCommand(String name) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 41ceea1093edbf777f9ebe252114be7f75438420..b6e449c2f29b0a201e5e7495de81d21a19f67a25 100644
+index c210d21382e0922aaf61f2c51949f753e6462b9e..1f4dc832ac059ddb9eafd43b0a37436abadaa59f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -13,7 +13,6 @@ import java.util.logging.Logger;

@@ -10,7 +10,7 @@ This patch adds a per-tick cache that is used for storing and retrieving
 an entity's exposure during an explosion.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index b86d8a3756cb8c1adb1aceda57f60b0ccdb3f659..43c7014b51f1f46a0e52f0595e85636767ed92ff 100644
+index f70468b2cc4a782d3d7cc7854192fbbc3ad3020f..9c26725e12adb2d17b9fa27f632fbad02e904c9a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1611,6 +1611,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -22,10 +22,10 @@ index b86d8a3756cb8c1adb1aceda57f60b0ccdb3f659..43c7014b51f1f46a0e52f0595e856367
  
          gameprofilerfiller.popPush("connection");
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 071545e60f838fa6c930edc35f46e0ce9b73fb44..e90dac1e46bca60896b027f670ba521d67c02c1e 100644
+index 3d2f579cf2b7b96f4ce2588f9655d2287767b01c..7e6680d0618173e23d323b4b29f0a2fc966789e7 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -168,6 +168,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -169,6 +169,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      private org.spigotmc.TickLimiter entityLimiter;
      private org.spigotmc.TickLimiter tileLimiter;
      private int tileTickPosition;
@@ -34,7 +34,7 @@ index 071545e60f838fa6c930edc35f46e0ce9b73fb44..e90dac1e46bca60896b027f670ba521d
      public CraftWorld getWorld() {
          return this.world;
 diff --git a/src/main/java/net/minecraft/world/level/ServerExplosion.java b/src/main/java/net/minecraft/world/level/ServerExplosion.java
-index 0eb25fabfff0e8a050c6dfb8cd24e703f679db76..f4b5c81d0daae24e06ba6409fc4584b4f1406fd2 100644
+index 67685dfa8eb4a74e70ef982291a55d145d6abc66..bbe50f60e653e60c844ca6688e781fa69d67905a 100644
 --- a/src/main/java/net/minecraft/world/level/ServerExplosion.java
 +++ b/src/main/java/net/minecraft/world/level/ServerExplosion.java
 @@ -206,7 +206,7 @@ public class ServerExplosion implements Explosion {
@@ -46,7 +46,7 @@ index 0eb25fabfff0e8a050c6dfb8cd24e703f679db76..f4b5c81d0daae24e06ba6409fc4584b4
  
                          if (flag) {
                              // CraftBukkit start
-@@ -483,4 +483,85 @@ public class ServerExplosion implements Explosion {
+@@ -487,4 +487,85 @@ public class ServerExplosion implements Explosion {
  
          }
      }

@@ -5,7 +5,7 @@ Subject: [PATCH] Add configurable portal search radius
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java b/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
-index 5244f272947a4eb600f5ba183db2bb17824784ce..5d4c0d7fec42bf843b11875f7a09bcb9279b3b54 100644
+index 6bdee85d11b86e618172089c8f9390b6071511ef..a8cb0d5019d06de64b2cc30e6830bbd6ad43a155 100644
 --- a/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
 @@ -145,8 +145,14 @@ public class NetherPortalBlock extends Block implements Portal {

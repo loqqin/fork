@@ -5,7 +5,7 @@ Subject: [PATCH] Configurable end credits
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
-index 8bea909328bc15eb6af739850db13d624270dee4..5744944455b08d45a7c0fe2289414b50b6c0d66a 100644
+index 4e560e290669fd62e373e5fa3515404f6c222336..8887d35d188510cf10da3dc46b0b56373ac346bd 100644
 --- a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 @@ -76,6 +76,7 @@ public class EndPortalBlock extends BaseEntityBlock implements Portal {

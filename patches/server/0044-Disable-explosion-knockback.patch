@@ -5,7 +5,7 @@ Subject: [PATCH] Disable explosion knockback
 
 
 diff --git a/src/main/java/net/minecraft/world/level/ServerExplosion.java b/src/main/java/net/minecraft/world/level/ServerExplosion.java
-index f4b5c81d0daae24e06ba6409fc4584b4f1406fd2..3afacd201683f46fd75cd6f9a7f3d43a7050cf4a 100644
+index bbe50f60e653e60c844ca6688e781fa69d67905a..e816e54daff781d54a94a007df5c59051347739d 100644
 --- a/src/main/java/net/minecraft/world/level/ServerExplosion.java
 +++ b/src/main/java/net/minecraft/world/level/ServerExplosion.java
 @@ -246,7 +246,7 @@ public class ServerExplosion implements Explosion {

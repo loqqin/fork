@@ -5,7 +5,7 @@ Subject: [PATCH] Fix lag from explosions processing dead entities
 
 
 diff --git a/src/main/java/net/minecraft/world/level/ServerExplosion.java b/src/main/java/net/minecraft/world/level/ServerExplosion.java
-index 1df33018470136344d8843e5e429aa7f9b40b750..0eb25fabfff0e8a050c6dfb8cd24e703f679db76 100644
+index 9ef8b671d5f969c71ac00ec1b49874ac05ca84ac..67685dfa8eb4a74e70ef982291a55d145d6abc66 100644
 --- a/src/main/java/net/minecraft/world/level/ServerExplosion.java
 +++ b/src/main/java/net/minecraft/world/level/ServerExplosion.java
 @@ -185,7 +185,7 @@ public class ServerExplosion implements Explosion {

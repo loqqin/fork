@@ -5,10 +5,10 @@ Subject: [PATCH] Remap fixes
 
 
 diff --git a/src/main/java/net/minecraft/core/BlockPos.java b/src/main/java/net/minecraft/core/BlockPos.java
-index e8b604659cec5a1b09e93dd7c5166d627aa2fe3d..115cb27d3233863692553f8e07238c74b0fcb61c 100644
+index c05eadf5f2ea2b9a66b4c63ca78db9a11bc585f3..d4bff51e5fe0c76d6e3832f48067b6051b217ab7 100644
 --- a/src/main/java/net/minecraft/core/BlockPos.java
 +++ b/src/main/java/net/minecraft/core/BlockPos.java
-@@ -323,9 +323,11 @@ public class BlockPos extends Vec3i {
+@@ -324,9 +324,11 @@ public class BlockPos extends Vec3i {
  
      public static Iterable<BlockPos> withinManhattan(BlockPos center, int rangeX, int rangeY, int rangeZ) {
          int i = rangeX + rangeY + rangeZ;
@@ -23,7 +23,7 @@ index e8b604659cec5a1b09e93dd7c5166d627aa2fe3d..115cb27d3233863692553f8e07238c74
          return () -> new AbstractIterator<BlockPos>() {
                  private final BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
                  private int currentDepth;
-@@ -339,7 +341,7 @@ public class BlockPos extends Vec3i {
+@@ -340,7 +342,7 @@ public class BlockPos extends Vec3i {
                  protected BlockPos computeNext() {
                      if (this.zMirror) {
                          this.zMirror = false;
@@ -32,7 +32,7 @@ index e8b604659cec5a1b09e93dd7c5166d627aa2fe3d..115cb27d3233863692553f8e07238c74
                          return this.cursor;
                      } else {
                          BlockPos blockPos;
-@@ -365,7 +367,7 @@ public class BlockPos extends Vec3i {
+@@ -366,7 +368,7 @@ public class BlockPos extends Vec3i {
                              int k = this.currentDepth - Math.abs(i) - Math.abs(j);
                              if (k <= rangeZ) {
                                  this.zMirror = k != 0;
@@ -117,7 +117,7 @@ index e96d821da0698dd42651500fb97a0856a9e9ce02..fb7d40181abdaa5b2ce607db47c09d0d
      }
  }
 diff --git a/src/test/java/org/bukkit/ParticleTest.java b/src/test/java/org/bukkit/ParticleTest.java
-index ab72aeeec64c284ea42ac1542f55fd33d314effb..e2a03301073aced927244b07fe86f2de043e40a3 100644
+index dc3f6dc2a4e52449f3d1b2e89900aae0f57dd4bf..c47ce2e5d23af967167fc2f61daa0efe1a85c8c1 100644
 --- a/src/test/java/org/bukkit/ParticleTest.java
 +++ b/src/test/java/org/bukkit/ParticleTest.java
 @@ -279,7 +279,7 @@ public class ParticleTest {

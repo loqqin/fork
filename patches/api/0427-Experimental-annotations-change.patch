@@ -5,22 +5,19 @@ Subject: [PATCH] Experimental annotations change
 
 
 diff --git a/src/main/java/org/bukkit/FeatureFlag.java b/src/main/java/org/bukkit/FeatureFlag.java
-index a96600443a0997c3a696a637422ab66ee1884fb0..20eb27ee041f77f295eb271f878c524ce5592251 100644
+index 54859fc5d8a14d26f22b57373045408d84766595..dd157b650aa7ac759d156ced30fa7514d34c43ed 100644
 --- a/src/main/java/org/bukkit/FeatureFlag.java
 +++ b/src/main/java/org/bukkit/FeatureFlag.java
 @@ -29,6 +29,7 @@ public interface FeatureFlag extends Keyed {
-     @Deprecated
+     @Deprecated(since = "1.20.2")
      public static final FeatureFlag UPDATE_1_20 = Bukkit.getUnsafe().getFeatureFlag(NamespacedKey.minecraft("update_1_20"));
  
 +    @ApiStatus.Experimental // Paper - add missing annotation
      public static final FeatureFlag TRADE_REBALANCE = Bukkit.getUnsafe().getFeatureFlag(NamespacedKey.minecraft("trade_rebalance"));
  
      /**
-@@ -39,10 +40,13 @@ public interface FeatureFlag extends Keyed {
-     @Deprecated
-     public static final FeatureFlag UPDATE_121 = Bukkit.getUnsafe().getFeatureFlag(NamespacedKey.minecraft("update_1_21"));
- 
-+    @ApiStatus.Experimental // Paper - add missing annotation
+@@ -47,8 +48,10 @@ public interface FeatureFlag extends Keyed {
+     @Deprecated(since = "1.21.4")
      public static final FeatureFlag WINTER_DROP = Bukkit.getUnsafe().getFeatureFlag(NamespacedKey.minecraft("winter_drop"));
  
 +    @ApiStatus.Experimental // Paper - add missing annotation
@@ -91,16 +88,17 @@ index 60fbacee263e55f91ac977f020e390d46024723a..ecff691c3a0878659fb051926ef769ce
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Bogged.java b/src/main/java/org/bukkit/entity/Bogged.java
-index 6296a6f3f3e794677fd3a626376f357c740ec356..7d993f8bd18ec1d3260d12f0ff8078a86ee4867d 100644
+index 6093b1dad8ad48708267a83bf4c1ad20467b3cf9..c84ddf808e2062dae7f68d574f05fbbc05273144 100644
 --- a/src/main/java/org/bukkit/entity/Bogged.java
 +++ b/src/main/java/org/bukkit/entity/Bogged.java
-@@ -5,6 +5,5 @@ import org.jetbrains.annotations.ApiStatus;
+@@ -5,7 +5,6 @@ import org.jetbrains.annotations.ApiStatus;
  /**
   * Represents a Bogged Skeleton.
   */
 -@ApiStatus.Experimental
  public interface Bogged extends AbstractSkeleton, Shearable, io.papermc.paper.entity.Shearable { // Paper - Shear API
- }
+ 
+     /**
 diff --git a/src/main/java/org/bukkit/entity/Breeze.java b/src/main/java/org/bukkit/entity/Breeze.java
 index a75e725805c193a408683885cba83ca168347165..254bc6e18961a72f471334cc0535e3c7a9d70012 100644
 --- a/src/main/java/org/bukkit/entity/Breeze.java
@@ -149,7 +147,7 @@ index 4adc91ba3dff00ab44303778e9d4499f7808ad00..beb62426490a361af793fb530106d854
  
  }
 diff --git a/src/main/java/org/bukkit/event/inventory/InventoryType.java b/src/main/java/org/bukkit/event/inventory/InventoryType.java
-index ae4ae1fa6d407665ef03edcdef683d741668acf1..b4fe8108e8b36b8ce859cdd4a5b557034f923c85 100644
+index 06e037ce94b368b3685ab04ba46c1ab5e5479dbb..e0d73d432cd31da35a72b479c854f2124c63ebe5 100644
 --- a/src/main/java/org/bukkit/event/inventory/InventoryType.java
 +++ b/src/main/java/org/bukkit/event/inventory/InventoryType.java
 @@ -148,7 +148,6 @@ public enum InventoryType {
@@ -171,7 +169,7 @@ index bb1fb5e0518c6a62ef8b206733ee51d831f1f85b..49d0a37bbeb0b8fa9207164c74245ef0
 -@ApiStatus.Experimental
  public interface CrafterInventory extends Inventory { }
 diff --git a/src/main/java/org/bukkit/map/MapCursor.java b/src/main/java/org/bukkit/map/MapCursor.java
-index 0899981b9ab1f98dacc617156d12779421e4c275..6c33fbf720a2e11655e254aeb516e08831c2adf4 100644
+index bd1c0417fbf72731e6301bf79966c6ea4102fc70..8d00f58883222fac4c3bef62eafa7bcbdedc896d 100644
 --- a/src/main/java/org/bukkit/map/MapCursor.java
 +++ b/src/main/java/org/bukkit/map/MapCursor.java
 @@ -314,12 +314,26 @@ public final class MapCursor {

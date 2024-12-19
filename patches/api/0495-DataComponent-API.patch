@@ -158,7 +158,7 @@ index 0000000000000000000000000000000000000000..e2266d86a4dd1bf20346e48c428f8baf
 +}
 diff --git a/src/main/java/io/papermc/paper/datacomponent/DataComponentTypes.java b/src/main/java/io/papermc/paper/datacomponent/DataComponentTypes.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..68284abd5c4358617ee7766101e942f81a001e2c
+index 0000000000000000000000000000000000000000..aa71271632aafb4169ff0e4967273003adbc7da1
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/datacomponent/DataComponentTypes.java
 @@ -0,0 +1,344 @@
@@ -345,7 +345,7 @@ index 0000000000000000000000000000000000000000..68284abd5c4358617ee7766101e942f8
 +    public static final DataComponentType.Valued<UseRemainder> USE_REMAINDER = valued("use_remainder");
 +    public static final DataComponentType.Valued<UseCooldown> USE_COOLDOWN = valued("use_cooldown");
 +    /**
-+     * If present, this item will not burn in fire.
++     * If present, this item will not take damage from the specified damage types.
 +     */
 +    public static final DataComponentType.Valued<DamageResistant> DAMAGE_RESISTANT = valued("damage_resistant");
 +    /**
@@ -435,10 +435,10 @@ index 0000000000000000000000000000000000000000..68284abd5c4358617ee7766101e942f8
 +     * Controls the amplifier amount for an Ominous Bottle's Bad Omen effect.
 +     */
 +    public static final DataComponentType.Valued<OminousBottleAmplifier> OMINOUS_BOTTLE_AMPLIFIER = valued("ominous_bottle_amplifier");
++    public static final DataComponentType.Valued<JukeboxPlayable> JUKEBOX_PLAYABLE = valued("jukebox_playable");
 +    /**
 +     * List of recipes that should be unlocked when using the Knowledge Book item.
 +     */
-+    public static final DataComponentType.Valued<JukeboxPlayable> JUKEBOX_PLAYABLE = valued("jukebox_playable");
 +    public static final DataComponentType.Valued<List<Key>> RECIPES = valued("recipes");
 +    /**
 +     * If present, specifies that the Compass is a Lodestone Compass.
@@ -636,7 +636,7 @@ index 0000000000000000000000000000000000000000..65f1bc8d1bea0042dca9683c43956113
 +}
 diff --git a/src/main/java/io/papermc/paper/datacomponent/item/BundleContents.java b/src/main/java/io/papermc/paper/datacomponent/item/BundleContents.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d47a78a6f51db66950ee67c60cfef1e21f4a4d40
+index 0000000000000000000000000000000000000000..696a4cebb902c4afd2d2f78bb8d9261bd09d7cb1
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/datacomponent/item/BundleContents.java
 @@ -0,0 +1,65 @@
@@ -674,7 +674,7 @@ index 0000000000000000000000000000000000000000..d47a78a6f51db66950ee67c60cfef1e2
 +     *
 +     * @return items
 +     */
-+    @Contract(value = "-> new", pure = true)
++    @Contract(pure = true)
 +    @Unmodifiable List<ItemStack> contents();
 +
 +    /**
@@ -853,18 +853,23 @@ index 0000000000000000000000000000000000000000..8c88bbbeef179e6c6666d07c8b28157e
 +}
 diff --git a/src/main/java/io/papermc/paper/datacomponent/item/CustomModelData.java b/src/main/java/io/papermc/paper/datacomponent/item/CustomModelData.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d416c9d25b3ab88bf1e208c6faf92a8e2378c376
+index 0000000000000000000000000000000000000000..334a87c1984cbddd835f25bbe04e03579cefc88d
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/datacomponent/item/CustomModelData.java
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,145 @@
 +package io.papermc.paper.datacomponent.item;
 +
++import java.util.List;
++import io.papermc.paper.datacomponent.DataComponentBuilder;
++import org.bukkit.Color;
 +import org.jetbrains.annotations.ApiStatus;
 +import org.jetbrains.annotations.Contract;
++import org.jetbrains.annotations.Unmodifiable;
 +import org.jspecify.annotations.NullMarked;
 +
 +/**
 + * Holds the custom model data.
++ *
 + * @see io.papermc.paper.datacomponent.DataComponentTypes#CUSTOM_MODEL_DATA
 + */
 +@NullMarked
@@ -872,18 +877,130 @@ index 0000000000000000000000000000000000000000..d416c9d25b3ab88bf1e208c6faf92a8e
 +@ApiStatus.NonExtendable
 +public interface CustomModelData {
 +
-+    @Contract(value = "_ -> new", pure = true)
-+    static CustomModelData customModelData(final int id) {
-+        return ItemComponentTypesBridge.bridge().customModelData(id);
++    @Contract(value = "-> new", pure = true)
++    static CustomModelData.Builder customModelData() {
++        return ItemComponentTypesBridge.bridge().customModelData();
 +    }
 +
 +    /**
-+     * Gets the custom model data id.
++     * Gets the custom model data float values.
 +     *
-+     * @return the id
++     * @return the float values
 +     */
 +    @Contract(pure = true)
-+    int id();
++    @Unmodifiable List<Float> floats();
++
++    /**
++     * Gets the custom model data boolean values.
++     *
++     * @return the boolean values
++     */
++    @Contract(pure = true)
++    @Unmodifiable List<Boolean> flags();
++
++    /**
++     * Gets the custom model data string values.
++     *
++     * @return the string values
++     */
++    @Contract(pure = true)
++    @Unmodifiable List<String> strings();
++
++    /**
++     * Gets the custom model data color values.
++     *
++     * @return the color values
++     */
++    @Contract(pure = true)
++    @Unmodifiable List<Color> colors();
++
++    /**
++     * Builder for {@link CustomModelData}.
++     */
++    @ApiStatus.Experimental
++    @ApiStatus.NonExtendable
++    interface Builder extends DataComponentBuilder<CustomModelData> {
++
++        /**
++         * Adds a float to this custom model data.
++         *
++         * @param f the float
++         * @return the builder for chaining
++         * @see #floats()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addFloat(float f);
++
++        /**
++         * Adds multiple floats to this custom model data.
++         *
++         * @param floats the floats
++         * @return the builder for chaining
++         * @see #floats()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addFloats(List<Float> floats);
++
++        /**
++         * Adds a flag to this custom model data.
++         *
++         * @param flag the flag
++         * @return the builder for chaining
++         * @see #flags()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addFlag(boolean flag);
++
++        /**
++         * Adds multiple flags to this custom model data.
++         *
++         * @param flags the flags
++         * @return the builder for chaining
++         * @see #flags()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addFlags(List<Boolean> flags);
++
++        /**
++         * Adds a string to this custom model data.
++         *
++         * @param string the string
++         * @return the builder for chaining
++         * @see #strings()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addString(String string);
++
++        /**
++         * Adds multiple strings to this custom model data.
++         *
++         * @param strings the strings
++         * @return the builder for chaining
++         * @see #strings()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addStrings(List<String> strings);
++
++        /**
++         * Adds a color to this custom model data.
++         *
++         * @param color the color
++         * @return the builder for chaining
++         * @see #colors()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addColor(Color color);
++
++        /**
++         * Adds multiple colors to this custom model data.
++         *
++         * @param colors the colors
++         * @return the builder for chaining
++         * @see #colors()
++         */
++        @Contract(value = "_ -> this", mutates = "this")
++        CustomModelData.Builder addColors(List<Color> colors);
++    }
 +}
 diff --git a/src/main/java/io/papermc/paper/datacomponent/item/DamageResistant.java b/src/main/java/io/papermc/paper/datacomponent/item/DamageResistant.java
 new file mode 100644
@@ -1071,7 +1188,7 @@ index 0000000000000000000000000000000000000000..a128348247d8845321d3fecebaa09a51
 +}
 diff --git a/src/main/java/io/papermc/paper/datacomponent/item/Equippable.java b/src/main/java/io/papermc/paper/datacomponent/item/Equippable.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..826bb860bd55ff18f91d9bc7a5dde4d638b39f98
+index 0000000000000000000000000000000000000000..d21a1cd4002a972c6e56cdf4c1e5f86414c56c12
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/datacomponent/item/Equippable.java
 @@ -0,0 +1,169 @@
@@ -1125,12 +1242,12 @@ index 0000000000000000000000000000000000000000..826bb860bd55ff18f91d9bc7a5dde4d6
 +    Key equipSound();
 +
 +    /**
-+     * Gets the model key if present.
++     * Gets the asset id if present.
 +     *
-+     * @return the model key or null
++     * @return the asset id or null
 +     */
 +    @Contract(pure = true)
-+    @Nullable Key model();
++    @Nullable Key assetId();
 +
 +    /**
 +     * Gets the camera overlay key if present.
@@ -1190,13 +1307,13 @@ index 0000000000000000000000000000000000000000..826bb860bd55ff18f91d9bc7a5dde4d6
 +        Builder equipSound(Key sound);
 +
 +        /**
-+         * Sets the model key for this item.
++         * Sets the asset id for this item.
 +         *
-+         * @param model the model key, nullable
++         * @param assetId the asset id, nullable
 +         * @return the builder for chaining
 +         */
 +        @Contract(value = "_ -> this", mutates = "this")
-+        Builder model(@Nullable Key model);
++        Builder assetId(@Nullable Key assetId);
 +
 +        /**
 +         * Sets the camera overlay key for this item.
@@ -1661,7 +1778,7 @@ index 0000000000000000000000000000000000000000..56a3e678c6658dd617da4974d9392006
 +}
 diff --git a/src/main/java/io/papermc/paper/datacomponent/item/ItemComponentTypesBridge.java b/src/main/java/io/papermc/paper/datacomponent/item/ItemComponentTypesBridge.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1ce34642371a65590ce1ac74b402ccfc301671d7
+index 0000000000000000000000000000000000000000..12df050d35a8470d9a111c98d9c0e22a52b684d1
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/datacomponent/item/ItemComponentTypesBridge.java
 @@ -0,0 +1,112 @@
@@ -1755,7 +1872,7 @@ index 0000000000000000000000000000000000000000..1ce34642371a65590ce1ac74b402ccfc
 +
 +    ItemAdventurePredicate.Builder itemAdventurePredicate();
 +
-+    CustomModelData customModelData(int id);
++    CustomModelData.Builder customModelData();
 +
 +    MapId mapId(int id);
 +
@@ -3752,10 +3869,10 @@ index 0000000000000000000000000000000000000000..87537e431e505e498f9c5f86cc3401d3
 +}
 diff --git a/src/main/java/io/papermc/paper/datacomponent/item/consumable/ItemUseAnimation.java b/src/main/java/io/papermc/paper/datacomponent/item/consumable/ItemUseAnimation.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8cd6dbe4ea5ee3270b9428a9c29cbd88823d9f6c
+index 0000000000000000000000000000000000000000..f8ffefc1e95fe89cb6f41fdbbf1defee8dccfdd2
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/datacomponent/item/consumable/ItemUseAnimation.java
-@@ -0,0 +1,17 @@
+@@ -0,0 +1,18 @@
 +package io.papermc.paper.datacomponent.item.consumable;
 +
 +/**
@@ -3771,7 +3888,8 @@ index 0000000000000000000000000000000000000000..8cd6dbe4ea5ee3270b9428a9c29cbd88
 +    CROSSBOW,
 +    SPYGLASS,
 +    TOOT_HORN,
-+    BRUSH
++    BRUSH,
++    BUNDLE
 +}
 diff --git a/src/main/java/io/papermc/paper/item/MapPostProcessing.java b/src/main/java/io/papermc/paper/item/MapPostProcessing.java
 new file mode 100644
@@ -3847,10 +3965,10 @@ index 0000000000000000000000000000000000000000..9e892621354c784632204559f9fdf082
 +    T filtered();
 +}
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 615eb24ffdd8f6d55ccd4f21760b809c1098bc68..c7ce8fa1ff9feda66d5a4e497112a24ff51c9d2b 100644
+index b28ab97ff80c9e7af85d8830f26fd0f252082541..e89edabd36a6755912694d8a8700da4ebe5c5829 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -137,7 +137,7 @@ import org.jetbrains.annotations.Nullable;
+@@ -138,7 +138,7 @@ import org.jetbrains.annotations.Nullable;
  @SuppressWarnings({"DeprecatedIsStillUsed", "deprecation"}) // Paper
  public enum Material implements Keyed, Translatable, net.kyori.adventure.translation.Translatable { // Paper
      //<editor-fold desc="Materials" defaultstate="collapsed">
@@ -3859,7 +3977,7 @@ index 615eb24ffdd8f6d55ccd4f21760b809c1098bc68..c7ce8fa1ff9feda66d5a4e497112a24f
      STONE(22948),
      GRANITE(21091),
      POLISHED_GRANITE(5477),
-@@ -5784,6 +5784,7 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
+@@ -5755,6 +5755,7 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
       */
      @ApiStatus.Internal
      @Nullable
@@ -3867,7 +3985,7 @@ index 615eb24ffdd8f6d55ccd4f21760b809c1098bc68..c7ce8fa1ff9feda66d5a4e497112a24f
      public ItemType asItemType() {
          return itemType.get();
      }
-@@ -5796,7 +5797,47 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
+@@ -5767,7 +5768,47 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
       */
      @ApiStatus.Internal
      @Nullable
@@ -3928,7 +4046,7 @@ index 87907918c42b11780b285b6d82e7297628a07376..d55c33ca14257be5005520e18e465da8
       * Get the object by its key.
       *
 diff --git a/src/main/java/org/bukkit/block/BlockType.java b/src/main/java/org/bukkit/block/BlockType.java
-index ed534fe4983873a2d5f623f0d9d5e3ce254615eb..f019d490794b49d21057820bab047e2f909934a1 100644
+index 10fb9624ff54f1b767d54781e4fa8af13855d93d..a340e78a4371b033d6afd2a7ccdf8292b24237b4 100644
 --- a/src/main/java/org/bukkit/block/BlockType.java
 +++ b/src/main/java/org/bukkit/block/BlockType.java
 @@ -128,7 +128,7 @@ import org.jetbrains.annotations.Nullable;
@@ -3941,7 +4059,7 @@ index ed534fe4983873a2d5f623f0d9d5e3ce254615eb..f019d490794b49d21057820bab047e2f
  
      /**
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index b59222b8c262545d100a9fd28b3bf1d2a4cf4eb0..6e4ca7d95953a25c0aaafd35e54ef9254a1b5f0b 100644
+index 3c4e83494dfe0f5fdbbcf2d8ee12fb05d92821ed..8c9654cd19af8b28fa276a55c5060eb389e60c1c 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
 @@ -1137,4 +1137,185 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
@@ -4131,10 +4249,10 @@ index b59222b8c262545d100a9fd28b3bf1d2a4cf4eb0..6e4ca7d95953a25c0aaafd35e54ef925
 +    // Paper end - data component API
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemType.java b/src/main/java/org/bukkit/inventory/ItemType.java
-index 72803c00e4af576f286d2af34bf300ee554a7f3c..2a3c4f055d0e4ef009caed95152570660ab100d5 100644
+index 5fbe84dc41a19717c73f88050c4fa476ab5aecd7..3450c635077d37ff78b0b136a991ef66770e5530 100644
 --- a/src/main/java/org/bukkit/inventory/ItemType.java
 +++ b/src/main/java/org/bukkit/inventory/ItemType.java
-@@ -2483,4 +2483,33 @@ public interface ItemType extends Keyed, Translatable, net.kyori.adventure.trans
+@@ -2444,4 +2444,33 @@ public interface ItemType extends Keyed, Translatable, net.kyori.adventure.trans
       */
      @Nullable ItemRarity getItemRarity();
      // Paper end - expand ItemRarity API

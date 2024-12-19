@@ -6,10 +6,10 @@ Subject: [PATCH] Plugin remapping
 Co-authored-by: Nassim Jahnke <nassim@njahnke.dev>
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index dd7900a126ab35ed00af5653a35d361d175f6f76..8678e5bd59a7e085cb1b4e38f29e06ce36d2c1de 100644
+index 278743a5d30c04c071f03f41c709344c9a2729ec..fdf92d6d2fbde8f3fd9663761fcabf550fd51907 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -61,6 +61,7 @@ dependencies {
+@@ -62,6 +62,7 @@ dependencies {
      testImplementation("org.ow2.asm:asm-tree:9.7.1")
      testImplementation("org.junit-pioneer:junit-pioneer:2.2.0") // Paper - CartesianTest
      implementation("net.neoforged:srgutils:1.0.9") // Paper - mappings handling
@@ -17,7 +17,7 @@ index dd7900a126ab35ed00af5653a35d361d175f6f76..8678e5bd59a7e085cb1b4e38f29e06ce
  }
  
  paperweight {
-@@ -188,20 +189,41 @@ val runtimeClasspathWithoutVanillaServer = configurations.runtimeClasspath.flatM
+@@ -189,20 +190,41 @@ val runtimeClasspathWithoutVanillaServer = configurations.runtimeClasspath.flatM
          runtime.filterNot { it.asFile.absolutePath == vanilla }
      }
  
@@ -1553,7 +1553,7 @@ index 0000000000000000000000000000000000000000..badff5d6ae6dd8d209c82bc7e8afe370
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index afb67956031f4bcccee12f0ece4bb8a7e6f02cfc..3322865949fe5ddaab2dffc39260b75093f0f204 100644
+index f43958a5253af0e753ba2b7d5ee9e715a3eaa424..8acd27005f2b7cf32dc4cf93cf1a6eea2ab594ca 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -657,6 +657,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa

@@ -5,10 +5,10 @@ Subject: [PATCH] Entity Origin API
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index b187561711227eed87ca73ceb8833fcb8e966b3d..c7ca1638457752bb3828cdde66865c578560d86a 100644
+index 5d5d6e4c2cb978f43ccb0977216c8338b7bdc7ba..718fecd96fc69904c31bfe94aaeead252a775ac1 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -2187,6 +2187,15 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
+@@ -2197,6 +2197,15 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
              entity.updateDynamicGameEventListener(DynamicGameEventListener::add);
              entity.inWorld = true; // CraftBukkit - Mark entity as in world
              entity.valid = true; // CraftBukkit
@@ -25,7 +25,7 @@ index b187561711227eed87ca73ceb8833fcb8e966b3d..c7ca1638457752bb3828cdde66865c57
  
          public void onTrackingEnd(Entity entity) {
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index a69de4362934240d8469b820bd1fbfd4a60645a2..a753bcd3a40c5169866845eb7155646b25e40732 100644
+index fdeb762077bf0b87ceb62697f935f611eb9b046b..8825087beb5388876a1206c9704648f3fa98fee2 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -332,7 +332,27 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
@@ -56,7 +56,7 @@ index a69de4362934240d8469b820bd1fbfd4a60645a2..a753bcd3a40c5169866845eb7155646b
      public float getBukkitYaw() {
          return this.yRot;
      }
-@@ -2270,6 +2290,15 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -2293,6 +2313,15 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
                  this.bukkitEntity.storeBukkitValues(nbttagcompound);
              }
              // CraftBukkit end
@@ -72,7 +72,7 @@ index a69de4362934240d8469b820bd1fbfd4a60645a2..a753bcd3a40c5169866845eb7155646b
              return nbttagcompound;
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Saving entity NBT");
-@@ -2398,6 +2427,20 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -2423,6 +2452,20 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
              }
              // CraftBukkit end
  

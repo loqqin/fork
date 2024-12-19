@@ -6,10 +6,10 @@ Subject: [PATCH] Remap reflection calls in plugins using internals
 Co-authored-by: Jason Penilla <11360596+jpenilla@users.noreply.github.com>
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 8678e5bd59a7e085cb1b4e38f29e06ce36d2c1de..8d05216e246bfaec5945cdd55d08b6a388a769e8 100644
+index fdf92d6d2fbde8f3fd9663761fcabf550fd51907..605853668f24ca149d048ba435d479728fe86061 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -62,6 +62,12 @@ dependencies {
+@@ -63,6 +63,12 @@ dependencies {
      testImplementation("org.junit-pioneer:junit-pioneer:2.2.0") // Paper - CartesianTest
      implementation("net.neoforged:srgutils:1.0.9") // Paper - mappings handling
      implementation("net.neoforged:AutoRenamingTool:2.0.3") // Paper - remap plugins
@@ -608,7 +608,7 @@ index 0000000000000000000000000000000000000000..a3045afbc0cc057e99189b909367b21c
 +    }
 +}
 diff --git a/src/main/java/io/papermc/paper/util/MappingEnvironment.java b/src/main/java/io/papermc/paper/util/MappingEnvironment.java
-index 8e4229634d41a42b3d93948eebb77def7c0c72b1..4477944f632a6b3936960ee80f9d898d3b7eed19 100644
+index 8e4229634d41a42b3d93948eebb77def7c0c72b1..8511c247089aeaecb0d2dd5921f667e592c4d99e 100644
 --- a/src/main/java/io/papermc/paper/util/MappingEnvironment.java
 +++ b/src/main/java/io/papermc/paper/util/MappingEnvironment.java
 @@ -10,6 +10,8 @@ import org.checkerframework.framework.qual.DefaultQualifier;
@@ -616,7 +616,7 @@ index 8e4229634d41a42b3d93948eebb77def7c0c72b1..4477944f632a6b3936960ee80f9d898d
  @DefaultQualifier(NonNull.class)
  public final class MappingEnvironment {
 +    public static final boolean DISABLE_PLUGIN_REMAPPING = Boolean.getBoolean("paper.disablePluginRemapping");
-+    public static final String LEGACY_CB_VERSION = "v1_21_R2";
++    public static final String LEGACY_CB_VERSION = "v1_21_R3";
      private static final @Nullable String MAPPINGS_HASH = readMappingsHash();
      private static final boolean REOBF = checkReobf();
  
@@ -705,7 +705,7 @@ index 7d2d5c4ee244e7118a4c38628e2e69c79b11b98d..371d31266a532e59c49dbb106e354296
              final Set<RerouteMethodData> rerouteMethodData = new HashSet<>();
              String className;
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 3c9cdb8c67d2704caac6488a6216d8c9c8a009ef..ab4dd5a86ccd8e9878abf95417bb05ceb91dd19c 100644
+index 8e747d48fb76c3f8bacb28f270754d5caeca4445..07316f0043639c608dddadd1b3af871f4c3129d0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -75,6 +75,7 @@ import org.bukkit.potion.PotionType;

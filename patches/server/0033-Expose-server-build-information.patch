@@ -11,7 +11,7 @@ Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 Co-authored-by: masmc05 <masmc05@gmail.com>
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 7aee6d9849f0a9c64db0368d2faa03c0633a72a4..40afa9e2cfb4518e9050ccac739aec3215f95d56 100644
+index 605853668f24ca149d048ba435d479728fe86061..d5ad109d2deb4fe756924ebaac4091017beb6b99 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -1,4 +1,5 @@
@@ -20,7 +20,7 @@ index 7aee6d9849f0a9c64db0368d2faa03c0633a72a4..40afa9e2cfb4518e9050ccac739aec32
  
  plugins {
      java
-@@ -79,18 +80,24 @@ tasks.jar {
+@@ -80,18 +81,24 @@ tasks.jar {
  
      manifest {
          val git = Git(rootProject.layout.projectDirectory.path)
@@ -533,7 +533,7 @@ index 0000000000000000000000000000000000000000..790bad0494454ca12ee152e3de6da3da
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 709c6361aa5eb78071ce9d0f2a65ce8a56af1443..b86d8a3756cb8c1adb1aceda57f60b0ccdb3f659 100644
+index 6ae26c5e2a60ee04c786cf19b08678c50c397a6a..f70468b2cc4a782d3d7cc7854192fbbc3ad3020f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -45,7 +45,6 @@ import java.util.Set;
@@ -659,7 +659,7 @@ index 16d2b3e59b8a6ef65b411afb9d94c61e6d797e36..e4335bfc98272c5499651977625e1f0c
      public List<CraftPlayer> getOnlinePlayers() {
          return this.playerView;
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 99bc6e3d472edc0a0182e7b53286cb6a0170ae80..44b6fd8a64e7d7756eb62cd3816b1c4dcc5c5927 100644
+index 1c2f232a99856fe754c7805d5b5a3d565e0d7f6f..c8171cb14612857a5a6f7b000c1cdfb62a59836f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -15,6 +15,7 @@ import joptsimple.OptionSet;
@@ -671,7 +671,7 @@ index 99bc6e3d472edc0a0182e7b53286cb6a0170ae80..44b6fd8a64e7d7756eb62cd3816b1c4d
      public static boolean useConsole = true;
  
 @@ -241,7 +242,7 @@ public class Main {
-                     deadline.add(Calendar.DAY_OF_YEAR, -14);
+                     deadline.add(Calendar.DAY_OF_YEAR, -2);
                      if (buildDate.before(deadline.getTime())) {
                          System.err.println("*** Error, this build is outdated ***");
 -                        System.err.println("*** Please download a new build as per instructions from https://www.spigotmc.org/go/outdated-spigot ***");
@@ -692,7 +692,7 @@ index 99bc6e3d472edc0a0182e7b53286cb6a0170ae80..44b6fd8a64e7d7756eb62cd3816b1c4d
                  t.printStackTrace();
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index ab4dd5a86ccd8e9878abf95417bb05ceb91dd19c..61efb305e25b23fe6309276e15efdb41a46c7738 100644
+index 07316f0043639c608dddadd1b3af871f4c3129d0..e27f10d0d5720c144729ce83e27aa1c70170ebe2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -475,6 +475,13 @@ public final class CraftMagicNumbers implements UnsafeValues {

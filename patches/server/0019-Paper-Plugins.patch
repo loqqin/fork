@@ -7221,10 +7221,10 @@ index f66a2154486b6d3b5873da043e51df91cd396c72..3f72e30b57fb2a4231e22a2234729408
          validate(REGISTRY);
      }
 diff --git a/src/main/java/net/minecraft/server/Bootstrap.java b/src/main/java/net/minecraft/server/Bootstrap.java
-index aa38282b0f5461fc623a69d9860523a678a6bcd6..9abd1dea58ffc612114d5fd8e8944d4aa8c68236 100644
+index 529d376c168014e41064262b4088bfcef74e8433..01c8d583a4addf43b8cad55a51989de7c3f73d90 100644
 --- a/src/main/java/net/minecraft/server/Bootstrap.java
 +++ b/src/main/java/net/minecraft/server/Bootstrap.java
-@@ -63,6 +63,7 @@ public class Bootstrap {
+@@ -66,6 +66,7 @@ public class Bootstrap {
              Bootstrap.isBootstrapped = true;
              Instant instant = Instant.now();
  
@@ -7232,7 +7232,7 @@ index aa38282b0f5461fc623a69d9860523a678a6bcd6..9abd1dea58ffc612114d5fd8e8944d4a
              if (BuiltInRegistries.REGISTRY.keySet().isEmpty()) {
                  throw new IllegalStateException("Unable to load registries");
              } else {
-@@ -74,7 +75,10 @@ public class Bootstrap {
+@@ -77,7 +78,10 @@ public class Bootstrap {
                      EntitySelectorOptions.bootStrap();
                      DispenseItemBehavior.bootStrap();
                      CauldronInteraction.bootStrap();
@@ -7245,10 +7245,10 @@ index aa38282b0f5461fc623a69d9860523a678a6bcd6..9abd1dea58ffc612114d5fd8e8944d4a
                      Bootstrap.wrapStreams();
                      Bootstrap.bootstrapDuration.set(Duration.between(instant, Instant.now()).toMillis());
 diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
-index 9bd6056bba6ba48bada7e9cd5883b0a171b0bbc4..7399358f18dc7869fbfe414186cf18414c1eaafc 100644
+index c791b6d176090d67ecb250c6bc71c90b6c62f447..a9f09f2939a0fbf20be7f8bc27a6d8b961fb748a 100644
 --- a/src/main/java/net/minecraft/server/Main.java
 +++ b/src/main/java/net/minecraft/server/Main.java
-@@ -119,6 +119,7 @@ public class Main {
+@@ -121,6 +121,7 @@ public class Main {
                  JvmProfiler.INSTANCE.start(Environment.SERVER);
              }
  
@@ -7257,7 +7257,7 @@ index 9bd6056bba6ba48bada7e9cd5883b0a171b0bbc4..7399358f18dc7869fbfe414186cf1841
              Bootstrap.validate();
              Util.startTimerHackThread();
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 4ec8731a48f81aff33c7d8bcfe00dea263735e48..600e865688b423d9bb4338f413dc28418ba37748 100644
+index 118c8b227133639427c1da84b93fcaa865fd6d02..542ff64ce0cb93a9f996fa0a65e8dde7ed39c3a9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -280,7 +280,8 @@ public final class CraftServer implements Server {
@@ -7329,7 +7329,7 @@ index 4ec8731a48f81aff33c7d8bcfe00dea263735e48..600e865688b423d9bb4338f413dc2841
          this.enablePlugins(PluginLoadOrder.STARTUP);
          this.enablePlugins(PluginLoadOrder.POSTWORLD);
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 54551723c6a6aae63edee6034ef8b8d20760cf11..3c9cdb8c67d2704caac6488a6216d8c9c8a009ef 100644
+index bcc9c0295495301d3b62ceb9d4ea93e365caee87..8e747d48fb76c3f8bacb28f270754d5caeca4445 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -402,6 +402,16 @@ public final class CraftMagicNumbers implements UnsafeValues {

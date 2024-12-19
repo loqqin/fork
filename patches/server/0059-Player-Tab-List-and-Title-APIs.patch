@@ -5,7 +5,7 @@ Subject: [PATCH] Player Tab List and Title APIs
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 51bf9e36ec13af09240c329e40391d79f715a021..e3b8cc11a5523614594f1c3a144991fa70227e57 100644
+index aa5755bd263c7682e41eeacbde28934b40796cf5..8fd5aaa16b0a6d34f54424512335020bd2e7ecb8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -393,6 +393,98 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

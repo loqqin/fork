@@ -5,7 +5,7 @@ Subject: [PATCH] Add configurable entity despawn distances
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 9b26f6a7526f875535738b1f22d9aa458845eb8e..efa1d813699286c0a2632f44c4d7eecd06e8aa64 100644
+index 3a63bcdc6a803e7b0b18c863f6e32209ff55707c..137e645950eab0fc083ef3ff0fc65ee702dc2ea7 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -861,20 +861,24 @@ public abstract class Mob extends LivingEntity implements EquipmentUser, Leashab

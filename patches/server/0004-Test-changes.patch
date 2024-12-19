@@ -8,7 +8,7 @@ Subject: [PATCH] Test changes
 Co-authored-by: yannnicklamprecht <yannicklamprecht@live.de>
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index d4a5229b4df544ff60cdaee80c8ae301faf2a235..dac5e12f59723cdbd0d42a153c57d71ce185d0e8 100644
+index 56c201841194bdea8c7d9f07bd105aefb7232697..7f1d42ca8df9f72d3d05501f36ae8aefffa6ade7 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -5,6 +5,18 @@ plugins {

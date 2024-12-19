@@ -7,7 +7,7 @@ Subject: [PATCH] Fix spawn location event changing location
 public net.minecraft.world.entity.Entity setRot(FF)V
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 56f046bac04205a813441907058c4ce21982d927..50b1e493a9adfa687dc22c66044c6aa243340b3f 100644
+index 70e5ffb1502acecc93685090741ccda48473f262..9a4ad6b24b8f067d43cd2f84e7b11dcabcf42209 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -234,7 +234,10 @@ public abstract class PlayerList {

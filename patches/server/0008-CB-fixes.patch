@@ -19,10 +19,10 @@ Subject: [PATCH] CB fixes
 Co-authored-by: Spottedleaf <Spottedleaf@users.noreply.github.com>
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index a17846ccd8581c3d6da962e977623aaab8314ec7..f6a3606b972064c4ec78487374e6197c0c447e27 100644
+index 67d5aaa5faa14e5ea5213efc6b24ef5b97fc17f7..ecbef5d54aef8e3f3bc2e4c34d2da6e96b1267b8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -293,7 +293,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
+@@ -294,7 +294,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
  
          long l = minecraftserver.getWorldData().worldGenOptions().seed();
  
@@ -53,6 +53,19 @@ index 4f68394a94308513269f0a4c749b6a36738e3ca0..953ab7638f7242b5a11dd1de87861724
          ChunkGenerator chunkGenerator,
          RandomState noiseConfig,
          LevelHeightAccessor world,
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
+index 19f165b855a0ca10732fd43c7ee093b11e535471..d54e0ab739ad33b8222d9ea2766e2a893154ee26 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
+@@ -424,7 +424,7 @@ public class CraftChunk implements Chunk {
+             }
+         }
+ 
+-        return new CraftChunkSnapshot(x, z, world.getMinHeight(), world.getMaxHeight(), world.getSeaLevel(), world.getName(), world.getFullTime(), blockIDs, skyLight, emitLight, empty, new Heightmap(actual, Heightmap.Types.MOTION_BLOCKING), iregistry, biome);
++        return new CraftChunkSnapshot(x, z, world.getMinHeight(), world.getMaxY(), world.getSeaLevel(), world.getName(), world.getFullTime(), blockIDs, skyLight, emitLight, empty, new Heightmap(actual, Heightmap.Types.MOTION_BLOCKING), iregistry, biome);
+     }
+ 
+     static void validateChunkCoordinates(int minY, int maxY, int x, int y, int z) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftLootTable.java b/src/main/java/org/bukkit/craftbukkit/CraftLootTable.java
 index a70e6872add1c952a89e74be0e6d09a53cc16559..90b82ad996b2b85628c9a5ddeef9410150b7f70c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftLootTable.java
@@ -69,8 +82,23 @@ index a70e6872add1c952a89e74be0e6d09a53cc16559..90b82ad996b2b85628c9a5ddeef94101
 +    }
 +    // Paper end
  }
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
+index abe22b2d9ab742fc58ec6dfe88f9fa337ba7d838..a9dec31bdafd6bae677e58143fe618d812b338b7 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
+@@ -1300,6 +1300,10 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+         return this.world.getMaxY() + 1;
+     }
+ 
++    public int getMaxY() {
++        return this.world.getMaxY();
++    }
++
+     @Override
+     public int getLogicalHeight() {
+         return this.world.dimensionType().logicalHeight();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 755b1d77418ecae0dc9ec5197275d0cd914e7bee..94004204b6cdbbbf35263faae56e3e06cb6b650c 100644
+index 153041dc3b4df33bd63a8a4765b4aa80c911e50e..d2aa1d32a62e074b53f304a755d42687ba0422ee 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -123,6 +123,7 @@ public class Main {
@@ -82,7 +110,7 @@ index 755b1d77418ecae0dc9ec5197275d0cd914e7bee..94004204b6cdbbbf35263faae56e3e06
  
                  this.acceptsAll(Main.asList("nojline"), "Disables jline and emulates the vanilla console");
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index 163d54a8bf4cedbd1471e86b7ab1a1b850ed3f39..6effe47b32a8551aa6f6b11bc0315714a119e199 100644
+index a25ccafc861249a2309bd42f08a32601644de46f..a7b53187a24d11b8c91e8c50eeb907aca60891cb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -26,6 +26,7 @@ import org.bukkit.scheduler.BukkitWorker;
@@ -102,7 +130,7 @@ index 163d54a8bf4cedbd1471e86b7ab1a1b850ed3f39..6effe47b32a8551aa6f6b11bc0315714
  public class CraftScheduler implements BukkitScheduler {
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
-index 7d39ed941cd0567d01122469a36d7a645b5aeeba..c101b342e4f0c154a35f6268253d9c30d97a98c3 100644
+index 592906e5b4cd7e3859001b279c1d5d70d2882c84..de7f9d5b3860e7d187d73a1bd0d28c70293ef66c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
 @@ -247,7 +247,7 @@ public final class CraftMagicNumbers implements UnsafeValues {

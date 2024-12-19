@@ -6,10 +6,10 @@ Subject: [PATCH] Configurable top of nether void damage
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 57960530e15f0e4b8fb40b725ff03aaf8ce6ffac..2828ef013fe2c35292990cccd824a76a5551c952 100644
+index 8825087beb5388876a1206c9704648f3fa98fee2..61f7461150c7354a641b86ce42a2b41460d3a45d 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -721,7 +721,11 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -725,7 +725,11 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
      }
  
      public void checkBelowWorld() {

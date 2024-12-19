@@ -6,10 +6,10 @@ Subject: [PATCH] Configurable Disabling Cat Chest Detection
 Offers a gameplay feature to stop cats from blocking chests
 
 diff --git a/src/main/java/net/minecraft/world/level/block/ChestBlock.java b/src/main/java/net/minecraft/world/level/block/ChestBlock.java
-index 62440d5985341d6c1b9ec5f6cce81a5ad6bd9040..590837cb242eda62dca3c937a26b8ba26c41850c 100644
+index accdc4200bf0b6f1064d973ec41002a8cdde6b0b..252d2ab67c125ae075689fa779477eb698c20a15 100644
 --- a/src/main/java/net/minecraft/world/level/block/ChestBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/ChestBlock.java
-@@ -348,6 +348,11 @@ public class ChestBlock extends AbstractChestBlock<ChestBlockEntity> implements
+@@ -343,6 +343,11 @@ public class ChestBlock extends AbstractChestBlock<ChestBlockEntity> implements
      }
  
      private static boolean isCatSittingOnChest(LevelAccessor world, BlockPos pos) {

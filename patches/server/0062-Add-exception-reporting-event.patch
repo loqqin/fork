@@ -91,10 +91,10 @@ index a5b18a04f482d05d3ca74918a580499b21c2fc3c..bd3f71c3eaa33258ff56062ea3a2099c
              }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index ed15f5c4a365a199d04e92d688035e4ab755e8db..f900c86697f5a3da45b724944a663fca8f89413e 100644
+index d8621149add06021d594415e079771b6fd57cc3f..11c5191ec6a53cb42f8a75e249fbce1058f2b58e 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -728,6 +728,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -729,6 +729,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
              // Paper start - Prevent block entity and entity crashes
              final String msg = String.format("Entity threw exception at %s:%s,%s,%s", entity.level().getWorld().getName(), entity.getX(), entity.getY(), entity.getZ());
              MinecraftServer.LOGGER.error(msg, throwable);
@@ -123,10 +123,10 @@ index 9389fd53f2bff0a9ca389694b312dc6da58befaf..da0ddb8285e157be0cc7b940a9590be5
                                  }
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 79cf3089c128ef3c17d956da1e380670279ee5da..96ea7a5d5d4a69c83c2401e64750d41cd70088fc 100644
+index daa2b3f67765bc340404747b3cffea5604830515..95da29b973d43b59d9c4d0c83068dc74b59c9c8b 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -496,8 +496,13 @@ public class LevelChunk extends ChunkAccess {
+@@ -501,8 +501,13 @@ public class LevelChunk extends ChunkAccess {
          BlockState iblockdata = this.getBlockState(blockposition);
  
          if (!iblockdata.hasBlockEntity()) {
@@ -142,7 +142,7 @@ index 79cf3089c128ef3c17d956da1e380670279ee5da..96ea7a5d5d4a69c83c2401e64750d41c
          } else {
              BlockState iblockdata1 = blockEntity.getBlockState();
  
-@@ -986,6 +991,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -991,6 +996,7 @@ public class LevelChunk extends ChunkAccess {
                          // Paper start - Prevent block entity and entity crashes
                          final String msg = String.format("BlockEntity threw exception at %s:%s,%s,%s", LevelChunk.this.getLevel().getWorld().getName(), this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
                          net.minecraft.server.MinecraftServer.LOGGER.error(msg, throwable);
@@ -171,7 +171,7 @@ index 15f273aa592828719de6e092d79a407dc8652dfe..b24e8255ab18eb5b2e4968aa62aa3d72
                  try {
                      filechannel.close();
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index 2c36d0796714997191c6540c34a9df60718065f6..0c0115ccd8541ac62975f4759b4e2083ac560332 100644
+index 0385aa1e5cced22bbafdabca1b63599db1f5d3f6..152c816efbd633210ff308ef56f5d0cda6edb1b5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -415,20 +415,25 @@ public class CraftScheduler implements BukkitScheduler {

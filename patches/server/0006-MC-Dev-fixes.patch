@@ -5,10 +5,10 @@ Subject: [PATCH] MC Dev fixes
 
 
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index 5b9ca3d968fd4884b1b7f2c06477ae00c09f202e..0842080f1840a83b34c2cc829dfddba78ba12157 100644
+index 078af824c2b8d7e7ac05c1c370bd630ee90b434b..56947030e423bf314f32c8dba7e841949336b8cf 100644
 --- a/src/main/java/net/minecraft/Util.java
 +++ b/src/main/java/net/minecraft/Util.java
-@@ -533,7 +533,7 @@ public class Util {
+@@ -537,7 +537,7 @@ public class Util {
      public static <K extends Enum<K>, V> EnumMap<K, V> makeEnumMap(Class<K> enumClass, Function<K, V> mapper) {
          EnumMap<K, V> enumMap = new EnumMap<>(enumClass);
  
@@ -30,10 +30,10 @@ index 643bb8860962ad691b11073f6dbf406bf7ec5fb1..9b8ec1fd158f6e51779be263fd56b911
      }
  }
 diff --git a/src/main/java/net/minecraft/core/BlockPos.java b/src/main/java/net/minecraft/core/BlockPos.java
-index 115cb27d3233863692553f8e07238c74b0fcb61c..83e7c141d947f8f8096fed1da716560494bc5c62 100644
+index d4bff51e5fe0c76d6e3832f48067b6051b217ab7..33167226a9687ce26450d30d7eebf351709c638a 100644
 --- a/src/main/java/net/minecraft/core/BlockPos.java
 +++ b/src/main/java/net/minecraft/core/BlockPos.java
-@@ -445,12 +445,12 @@ public class BlockPos extends Vec3i {
+@@ -446,12 +446,12 @@ public class BlockPos extends Vec3i {
                      if (this.index == l) {
                          return this.endOfData();
                      } else {
@@ -84,7 +84,7 @@ index a614e960fcd5958ad17b679eee8a8e6926f58e62..da101bca71f4710812621b98f0a0d8ca
  
              if (!this.hasElementSeparator()) {
 diff --git a/src/main/java/net/minecraft/resources/RegistryDataLoader.java b/src/main/java/net/minecraft/resources/RegistryDataLoader.java
-index f4f1a99d53ffb953beb2a944f54d28fa6349fa29..a75f6fefdd72188fa8d16df2b5cbb34c4129f52d 100644
+index 4a9b8ec9294e82fd8da166e7582637ce19dcde7c..b9b9ec93442423e99def9b2c51aedc955a7799d5 100644
 --- a/src/main/java/net/minecraft/resources/RegistryDataLoader.java
 +++ b/src/main/java/net/minecraft/resources/RegistryDataLoader.java
 @@ -74,7 +74,7 @@ import org.slf4j.Logger;
@@ -97,7 +97,7 @@ index f4f1a99d53ffb953beb2a944f54d28fa6349fa29..a75f6fefdd72188fa8d16df2b5cbb34c
      private static final Function<Optional<KnownPack>, RegistrationInfo> REGISTRATION_INFO_CACHE = Util.memoize(knownPacks -> {
          Lifecycle lifecycle = knownPacks.map(KnownPack::isVanilla).map(vanilla -> Lifecycle.stable()).orElse(Lifecycle.experimental());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3fc0abef2c4e2c8ceb3b8c4f02c59700aa3d0803..8e16bc7da15824723f1d7d4bff87fac181978500 100644
+index b6a662ee88a550836b620bb1ede349d5e4c94dfb..294dc6691683b769b57635ea05b4b9e4562fa9f5 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -2031,7 +2031,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -135,21 +135,8 @@ index 33170f2f1d3f030fbf342e44a1baa109a34c31a7..dde1ccca98f58200910334160f0f79eb
          return SoundEvents.DOLPHIN_DEATH;
      }
  
-diff --git a/src/main/java/net/minecraft/world/entity/monster/Pillager.java b/src/main/java/net/minecraft/world/entity/monster/Pillager.java
-index cf025d7a4392213db3cf04e7ace3e2b166e710eb..3e8631c7bd1e7591051ca21c6ae7acd87d3c7529 100644
---- a/src/main/java/net/minecraft/world/entity/monster/Pillager.java
-+++ b/src/main/java/net/minecraft/world/entity/monster/Pillager.java
-@@ -69,7 +69,7 @@ public class Pillager extends AbstractIllager implements CrossbowAttackMob, Inve
-         super.registerGoals();
-         this.goalSelector.addGoal(0, new FloatGoal(this));
-         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Creaking.class, 8.0F, 1.0D, 1.2D));
--        this.goalSelector.addGoal(2, new Raider.HoldGroundAttackGoal(this, this, 10.0F));
-+        this.goalSelector.addGoal(2, new Raider.HoldGroundAttackGoal(this, 10.0F)); // Paper - decomp fix
-         this.goalSelector.addGoal(3, new RangedCrossbowAttackGoal<>(this, 1.0D, 8.0F));
-         this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
-         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F, 1.0F));
 diff --git a/src/main/java/net/minecraft/world/level/chunk/status/ChunkStatusTasks.java b/src/main/java/net/minecraft/world/level/chunk/status/ChunkStatusTasks.java
-index 5fa94fd51027901591e40cabdacfd61d16a58585..3f552ee8f90566edddb5943311a14309e4bebb61 100644
+index 650cc276e38b44b8b5486f53dd978439c2c25bd7..d2104e6e6ac7911bdba1cea3b9eca64930165cce 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/status/ChunkStatusTasks.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/status/ChunkStatusTasks.java
 @@ -151,7 +151,7 @@ public class ChunkStatusTasks {

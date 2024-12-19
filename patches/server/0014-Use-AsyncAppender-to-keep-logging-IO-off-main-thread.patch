@@ -5,12 +5,12 @@ Subject: [PATCH] Use AsyncAppender to keep logging IO off main thread
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index ec71e5a0fa0190b54828da9688281e72b21f733e..3fb47580cd8de02574905384e455d87224864407 100644
+index 72a48e3971d63e0cb9aec1bfa21dd291a530a73d..ea6865398308111dd36a81401b53c9db8a8fc74a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -47,6 +47,7 @@ dependencies {
+@@ -48,6 +48,7 @@ dependencies {
      implementation("commons-lang:commons-lang:2.6")
-     runtimeOnly("org.xerial:sqlite-jdbc:3.46.1.3")
+     runtimeOnly("org.xerial:sqlite-jdbc:3.47.0.0")
      runtimeOnly("com.mysql:mysql-connector-j:9.1.0")
 +    runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
  

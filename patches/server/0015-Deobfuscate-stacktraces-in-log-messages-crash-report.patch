@@ -6,10 +6,10 @@ Subject: [PATCH] Deobfuscate stacktraces in log messages, crash reports, and
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 3fb47580cd8de02574905384e455d87224864407..653b48c1bc28af6f88ec3bdd11b2d1a683dd3465 100644
+index ea6865398308111dd36a81401b53c9db8a8fc74a..278743a5d30c04c071f03f41c709344c9a2729ec 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -60,6 +60,7 @@ dependencies {
+@@ -61,6 +61,7 @@ dependencies {
      mockitoAgent("org.mockito:mockito-core:5.14.1") { isTransitive = false } // Paper - configure mockito agent that is needed in newer java versions
      testImplementation("org.ow2.asm:asm-tree:9.7.1")
      testImplementation("org.junit-pioneer:junit-pioneer:2.2.0") // Paper - CartesianTest
@@ -466,7 +466,7 @@ index 81831a061d7fbf513f4aa7880e3b18ef3fdc05d7..1e9873d7b258ce1f0b2437cb1e487157
          }
      }
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 77985072928a1b892fb4f7dec1d0899324780082..f5e6610d271ef2c997fb3d1a5f65e0bf0740805a 100644
+index 1fc859f4cc1cf552d2d578b3cda5872bc8b1015a..00bf34e1fd3593ad6d92bd292f3069cd3cbddfdd 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -82,13 +82,13 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {

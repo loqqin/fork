@@ -11,7 +11,7 @@ import kotlin.io.path.*
 plugins {
     java
     `maven-publish`
-    id("io.papermc.paperweight.core") version "1.7.5"
+    id("io.papermc.paperweight.core") version "1.7.7"
 }
 
 allprojects {
@@ -31,6 +31,7 @@ subprojects {
     tasks.withType<JavaCompile> {
         options.encoding = Charsets.UTF_8.name()
         options.release = 21
+        options.isFork = true
     }
     tasks.withType<Javadoc> {
         options.encoding = Charsets.UTF_8.name()
@@ -67,7 +68,7 @@ repositories {
 }
 
 dependencies {
-    paramMappings("net.fabricmc:yarn:1.21.3+build.1:mergedv2")
+    paramMappings("net.fabricmc:yarn:1.21.4+build.1:mergedv2")
     remapper("net.fabricmc:tiny-remapper:0.10.3:fat")
     decompiler("org.vineflower:vineflower:1.10.1")
     spigotDecompiler("io.papermc:patched-spigot-fernflower:0.1+build.13")

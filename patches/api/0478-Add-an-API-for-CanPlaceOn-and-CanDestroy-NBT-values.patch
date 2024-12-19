@@ -201,7 +201,7 @@ index 0000000000000000000000000000000000000000..c976995a0fceaf0cbddd399906a86674
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/NamespacedKey.java b/src/main/java/org/bukkit/NamespacedKey.java
-index 7ff6d60deb129e23b2a4d772aee123eb6c0b6433..52a2763773b234c581b2dcc6f0584f8d8b0fbc60 100644
+index 6d266c111bfa2bd51338e03ed740f6ac81ed07c7..d71531c384c57ea44d1e1fbe394214c1b0cee0a4 100644
 --- a/src/main/java/org/bukkit/NamespacedKey.java
 +++ b/src/main/java/org/bukkit/NamespacedKey.java
 @@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
@@ -228,10 +228,10 @@ index 7ff6d60deb129e23b2a4d772aee123eb6c0b6433..52a2763773b234c581b2dcc6f0584f8d
          return key;
      }
 diff --git a/src/main/java/org/bukkit/inventory/meta/ItemMeta.java b/src/main/java/org/bukkit/inventory/meta/ItemMeta.java
-index 3fdba38fd5e75ddcbfca9cee70a606bfa4a539bf..66219e3855aef885341132a7456af54cf315475f 100644
+index 2035d54de7e446930f8fdd2a572240e70a21c656..e8c0b8848abce2c9e8b2be880de3897292f0b23e 100644
 --- a/src/main/java/org/bukkit/inventory/meta/ItemMeta.java
 +++ b/src/main/java/org/bukkit/inventory/meta/ItemMeta.java
-@@ -1010,4 +1010,98 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
+@@ -1063,4 +1063,98 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable, Persiste
      @SuppressWarnings("javadoc")
      @NotNull
      ItemMeta clone();

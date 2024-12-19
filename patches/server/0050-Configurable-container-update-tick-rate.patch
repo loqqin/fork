@@ -5,10 +5,10 @@ Subject: [PATCH] Configurable container update tick rate
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 911ec630c5925b160cc05f99f0d5bb5ac46384bb..78e4f07019e3231fbaa3f23bcdc8846e2d79ae18 100644
+index 01ae7e9847602d489c34f060ff132a1f5f9781a3..7e5fb0abe6cb4f10c41dedb2076e70bd9ace5430 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -295,6 +295,7 @@ public class ServerPlayer extends net.minecraft.world.entity.player.Player {
+@@ -293,6 +293,7 @@ public class ServerPlayer extends net.minecraft.world.entity.player.Player {
      private final CommandSource commandSource;
      private int containerCounter;
      public boolean wonGame;
@@ -16,17 +16,16 @@ index 911ec630c5925b160cc05f99f0d5bb5ac46384bb..78e4f07019e3231fbaa3f23bcdc8846e
  
      // CraftBukkit start
      public CraftPlayer.TransferCookieConnection transferCookieConnection;
-@@ -924,7 +925,12 @@ public class ServerPlayer extends net.minecraft.world.entity.player.Player {
+@@ -922,7 +923,11 @@ public class ServerPlayer extends net.minecraft.world.entity.player.Player {
              --this.invulnerableTime;
          }
  
 -        this.containerMenu.broadcastChanges();
-+        // Paper start - Configurable container update tick rate
-+        if (--containerUpdateDelay <= 0) {
++        if (--this.containerUpdateDelay <= 0) {
 +            this.containerMenu.broadcastChanges();
-+            containerUpdateDelay = this.level().paperConfig().tickRates.containerUpdate;
++            this.containerUpdateDelay = this.level().paperConfig().tickRates.containerUpdate;
 +        }
 +        // Paper end - Configurable container update tick rate
-         if (!this.level().isClientSide && !this.containerMenu.stillValid(this)) {
+         if (!this.containerMenu.stillValid(this)) {
              this.closeContainer();
              this.containerMenu = this.inventoryMenu;
